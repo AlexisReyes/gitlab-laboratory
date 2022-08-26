@@ -3,15 +3,22 @@
   hosts: all
   become: yes
 
+  vars:
+    user: ubuntu
+    has_gitlab: "{{ gitlab | default('no') | bool }}"
+    dest_dir: /containers
+
   roles:
     - role: docker
-      default_user: ubuntu
+      default_user: "{{ user }}"
       network: ubuntu
 
     - role: gitlab
       vars:
+        owner: "{{ user }}"
+        dirpath: "{{ dest_dir }}"
         hostname: "{{ host | default('git.example.vm') }}"
         gitlab_image_tag: "{{ gitlab_tag | default('15.3.0-ce.0') }}"
         gitlab_runner_image_tag: "{{ runner_tag | default(alpine-v15.3.0) }}"
         nginx_image_tag: "{{ nginx_tag | default(1.23-alpine) }}"
-      when: gitlab is defined and gitlab is true
+      when: has_gitlab is defined and has_gitlab is true
