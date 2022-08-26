@@ -1,2 +1,8 @@
 ---
 # defaults file for gitlab-docker
+host_user: root
+host_dest_dir: /containers
+gitlab_hostname: git.example.vm
+gitlab_image_tag: latest
+gitlab_runner_image_tag: latest
+nginx_image_tag: latest

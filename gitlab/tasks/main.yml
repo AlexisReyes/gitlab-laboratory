@@ -11,6 +11,7 @@
     path: "{{ host_dest_dir }}/{{ item }}"
     state: directory
     mode: '0755'
+    owner: "{{ host_user }}"
   loop:
     - gitlab
     - mattermost
@@ -22,6 +23,7 @@
     path: "{{ host_dest_dir }}/{{ item }}"
     state: directory
     mode: '0755'
+    owner: "{{ host_user }}"
   loop:
     - nginx/config
     - gitlab/config
@@ -31,18 +33,22 @@
   template:
     src: gitlab-docker-compose.yml.j2
     dest: "{{ host_dest_dir }}/gitlab/docker-compose.yml"
+    owner: "{{ host_user }}"
 
 - name: Copy gitlab runner conf
   template:
     src: gitlab-runner.toml.j2
     dest: "{{ host_dest_dir }}/gitlab/config/runner/config.toml"
+    owner: "{{ host_user }}"
 
 - name: Copy nginx docker-compose
   template:
     src: nginx-docker-compose.yml.j2
     dest: "{{ host_dest_dir }}/nginx/docker-compose.yml"
+    owner: "{{ host_user }}"
 
 - name: Copy nginx conf
   template:
     src: gitlab-nginx.conf.j2
     dest: "{{ host_dest_dir }}/nginx/config/gitlab.conf"
+    owner: "{{ host_user }}"

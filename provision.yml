@@ -6,7 +6,6 @@
   vars:
     user: ubuntu
     has_gitlab: "{{ gitlab | default('no') | bool }}"
-    dest_dir: /containers
 
   roles:
     - role: docker
@@ -15,10 +14,8 @@
 
     - role: gitlab
       vars:
-        host_user: "{{ owner | default(false) }}"
-        dirpath: "{{ dest_dir | default(false) }}"
-        hostname: "{{ host | default('git.example.vm') }}"
-        gitlab_image_tag: "{{ gitlab_tag | default('15.3.0-ce.0') }}"
-        gitlab_runner_image_tag: "{{ runner_tag | default(alpine-v15.3.0) }}"
-        nginx_image_tag: "{{ nginx_tag | default(1.23-alpine) }}"
+        host_user: "{{ user }}"
+        gitlab_image_tag: "{{ gitlab_tag | default('15.3.0-ce.0')}}"
+        gitlab_runner_image_tag: "{{ gitlab_runner_tag | default('alpine-v15.3.0') }}"
+        nginx_image_tag: "{{ nginx_tag | default('1.23-alpine') }}"
       when: has_gitlab is defined and has_gitlab is true
