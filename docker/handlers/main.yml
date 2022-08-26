@@ -14,4 +14,4 @@
 
 - name: Create docker network
   listen: enable docker
-  command: docker create network {{ custom_network }}
+  command: docker network create {{ custom_network }}
