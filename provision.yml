@@ -1,0 +1,17 @@
+---
+- name: Install docker and create Gitlab Instance
+  hosts: all
+  become: yes
+
+  roles:
+    - role: docker
+      default_user: ubuntu
+      network: ubuntu
+
+    - role: gitlab
+      vars:
+        hostname: "{{ host | default('git.example.vm') }}"
+        gitlab_image_tag: "{{ gitlab_tag | default('15.3.0-ce.0') }}"
+        gitlab_runner_image_tag: "{{ runner_tag | default(alpine-v15.3.0) }}"
+        nginx_image_tag: "{{ nginx_tag | default(1.23-alpine) }}"
+      when: gitlab is defined and gitlab is true
