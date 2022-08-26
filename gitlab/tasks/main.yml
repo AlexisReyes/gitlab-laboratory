@@ -1,0 +1,41 @@
+---
+- name: Create initial directories
+  ansible.builtin.file:
+    path: /home/{{ default_user }}/{{ item }}
+    state: directory
+    mode: '0755'
+  loop:
+    - gitlab
+    - mattermost
+    - nginx
+    - registry
+
+- name: Create applications config directories
+  ansible.builtin.file:
+    path: /home/{{ default_user }}/{{ item }}
+    state: directory
+    mode: '0755'
+  loop:
+    - nginx/config
+    - mattermost/config
+    - mattermost/config/runner
+
+- name: Copy gitlab docker-compose
+  template:
+    src: gitlab-docker-compose.yml.j2
+    dest: /home/{{ default_user }}/gitlab/docker-compose.yml
+
+- name: Copy gitlab runner conf
+  template:
+    src: gitlab-runner.toml.j2
+    dest: /home/{{ default_user }}/gitlab/config/runner/config.toml
+
+- name: Copy nginx docker-compose
+  template:
+    src: nginx-docker-compose.yml.j2
+    dest: /home/{{ default_user }}/nginx/docker-compose.yml
+
+- name: Copy nginx conf
+  template:
+    src: gitlab-nginx.conf.j2
+    dest: /home/{{ default_user }}/nginx/config/gitlab.conf

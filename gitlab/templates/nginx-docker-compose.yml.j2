@@ -1,0 +1,19 @@
+version: "3.7"
+networks:
+  default:
+    external:
+      name: gitlab
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:{{ nginx_image_tag }}
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./config:/etc/nginx/conf.d
+      - ./data:/var/www
+      - ./logs:/var/log/nginx
+    environment:
+      - TZ=America/Mexico_City

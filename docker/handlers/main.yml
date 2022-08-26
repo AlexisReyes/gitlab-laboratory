@@ -1,0 +1,17 @@
+---
+# handlers file for docker
+- name: Enable Docker CE
+  listen: enable docker
+  service:
+    name: docker
+    enabled: yes
+
+- name: Start Docker CE
+  listen: enable docker
+  service:
+    name: docker
+    state: restarted
+
+- name: Create docker network
+  listen: enable docker
+  command: docker create network {{ custom_network }}

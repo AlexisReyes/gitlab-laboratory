@@ -1,0 +1,4 @@
+---
+# vars file for docker
+default_user: "{{ user | default('ubuntu') }}"
+custom_network: "{{ network | default('lab') }}"

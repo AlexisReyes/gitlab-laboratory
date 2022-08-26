@@ -1,0 +1,25 @@
+version: '3.7'
+networks:
+  default:
+    external:
+      name: "gitlab"
+services:
+  gitlab:
+    container_name: gitlab
+    hostname: {{ gitlab_hostname }}
+    image: gitlab/gitlab-ce:{{ gitlab_image_tag}}
+    restart: always
+    ports:
+      - "2221:22"
+    volumes:
+      - ./config:/etc/gitlab
+      - ./logs:/var/log/gitlab
+      - ./data:/var/opt/gitlab
+
+  runner:
+    container_name: gitlab-runner
+    image: gitlab/gitlab-runner:{{ gitlab_runner_image_tag }}
+    restart: unless-stopped
+    volumes:
+      - ./config/runner:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock

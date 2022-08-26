@@ -1,0 +1,55 @@
+---
+# tasks file for docker
+- name: Get ubuntu version
+  command: lsb_release -cs
+  register: ubuntu_release
+
+- name: Install required system packages
+  apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+    state: latest
+    update_cache: true
+
+- name: Add Docker GPG apt Key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu {{ ubuntu_release.stdout }} stable
+    state: present
+
+- name: Update apt and install docker-ce
+  apt:
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+      - docker-compose
+      - docker-compose-plugin
+    state: latest
+    update_cache: true
+  notify: enable docker
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Add default user to docker group
+  user:
+    name: "{{ default_user }}"
+    groups: docker
+    append: yes
+    generate_ssh_key: yes
+    ssh_key_type: ed25519
+    state: present

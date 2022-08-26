@@ -1,0 +1,15 @@
+server {
+    listen 80;
+    server_name {{ gitlab_hostname }};
+
+    access_log  /var/log/nginx/{{ gitlab_hostname }}-access.log;
+    error_log   /var/log/nginx/{{ gitlab_hostname }}-error.log;
+
+    location @_gitlab {
+        proxy_pass http://gitlab;
+    }
+
+    location / {
+        try_files $uri @_gitlab;
+    }
+}
