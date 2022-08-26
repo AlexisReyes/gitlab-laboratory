@@ -1,2 +1,4 @@
 ---
 # defaults file for docker
+docker:
+  url: https://download.docker.com/linux/ubuntu
