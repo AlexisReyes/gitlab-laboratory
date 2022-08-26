@@ -15,8 +15,8 @@
 
     - role: gitlab
       vars:
-        owner: "{{ user }}"
-        dirpath: "{{ dest_dir }}"
+        host_user: "{{ owner | default(false) }}"
+        dirpath: "{{ dest_dir | default(false) }}"
         hostname: "{{ host | default('git.example.vm') }}"
         gitlab_image_tag: "{{ gitlab_tag | default('15.3.0-ce.0') }}"
         gitlab_runner_image_tag: "{{ runner_tag | default(alpine-v15.3.0) }}"

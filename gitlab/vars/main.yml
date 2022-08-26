@@ -1,7 +1,7 @@
 ---
 # vars file for gitlab-docker
-user: "{{ owner | default('root') }}"
-dest_dir: "{{ dirpath | default('/root') }}"
+host_user: "{{ owner | default('root') }}"
+host_dest_dir: "{{ dest_dir | default('/root') }}"
 gitlab_hostname: "{{ hostname | default('git.example.com') }}"
 gitlab_image_tag: latest
 gitlab_runner_image_tag: latest

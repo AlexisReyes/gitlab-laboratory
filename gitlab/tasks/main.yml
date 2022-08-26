@@ -1,14 +1,14 @@
 ---
 - name: Create dest directory
   ansible.builtin.file:
-    path: "{{ dest_dir }}"
+    path: "{{ host_dest_dir }}"
     state: directory
     mode: '0755'
-    owner: "{{ user }}"
+    owner: "{{ host_user }}"
 
 - name: Create initial directories for applications
   ansible.builtin.file:
-    path: "{{ dest_dir }}/{{ item }}"
+    path: "{{ host_dest_dir }}/{{ item }}"
     state: directory
     mode: '0755'
   loop:
@@ -19,7 +19,7 @@
 
 - name: Create applications config directories
   ansible.builtin.file:
-    path: "{{ dest_dir }}/{{ item }}"
+    path: "{{ host_dest_dir }}/{{ item }}"
     state: directory
     mode: '0755'
   loop:
@@ -30,19 +30,19 @@
 - name: Copy gitlab docker-compose
   template:
     src: gitlab-docker-compose.yml.j2
-    dest: "{{ dest_dir }}/gitlab/docker-compose.yml"
+    dest: "{{ host_dest_dir }}/gitlab/docker-compose.yml"
 
 - name: Copy gitlab runner conf
   template:
     src: gitlab-runner.toml.j2
-    dest: "{{ dest_dir }}/gitlab/config/runner/config.toml"
+    dest: "{{ host_dest_dir }}/gitlab/config/runner/config.toml"
 
 - name: Copy nginx docker-compose
   template:
     src: nginx-docker-compose.yml.j2
-    dest: "{{ dest_dir }}/nginx/docker-compose.yml"
+    dest: "{{ host_dest_dir }}/nginx/docker-compose.yml"
 
 - name: Copy nginx conf
   template:
     src: gitlab-nginx.conf.j2
-    dest: "{{ dest_dir }}/nginx/config/gitlab.conf"
+    dest: "{{ host_dest_dir }}/nginx/config/gitlab.conf"
