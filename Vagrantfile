@@ -11,12 +11,14 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "gitlab" do |gitlab|
 
-        gitlab.vm.box = UBUNTU
-        gitlab.vm.memory = MEMORY * 4
-        gitlab.vm.cpus = CORE * 2
+        gitlab.vm.box    = UBUNTU
+
+        gitlab.vm.provider "virtualbox" do |vb| 
+            vb.memory = MEMORY * 4
+            vb.cpus   = CORE * 2
+        end
 
         gitlab.vm.provision "ansible" do |ansible|
-            ansible.verbose = "v"
             ansible.raw_arguments = ["-e", "gitlab=true"]
             ansible.playbook = "provision.yml"
         end
@@ -26,12 +28,14 @@ Vagrant.configure("2") do |config|
 
     config.vm.define "app" do |app|
 
-        app.vm.box = UBUNTU
-        app.vm.memory = CORE
-        app.vm.cpus = MEMORY
+        app.vm.box    = UBUNTU
+
+        app.vm.provider "virtualbox" do |vb| 
+            vb.memory = MEMORY * 4
+            vb.cpus   = CORE * 2
+        end
 
         app.vm.provision "ansible" do |ansible|
-            ansible.verbose = "v"
             ansible.playbook = "provision.yml"
         end
 
