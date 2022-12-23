@@ -18,4 +18,4 @@
         gitlab_image_tag: "{{ gitlab_tag | default('15.3.0-ce.0')}}"
         gitlab_runner_image_tag: "{{ gitlab_runner_tag | default('alpine-v15.3.0') }}"
         nginx_image_tag: "{{ nginx_tag | default('1.23-alpine') }}"
-      when: has_gitlab is defined and has_gitlab is true
+      when: has_gitlab is true
